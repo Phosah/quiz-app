@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/answer.dart';
-import 'package:quiz_app/question.dart';
+import 'package:quiz_app/quiz.dart';
+import 'package:quiz_app/result.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,56 +16,42 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final _questions = const [
+    {
+      'questionText': "What's your favorite color?",
+      'answers': ['Black', 'Red', 'Green', 'White'],
+    },
+    {
+      'questionText': "What's your favorite animal?",
+      'answers': ['Lion', 'Dog', 'Cat', 'Tortoise'],
+    },
+    {
+      'questionText': "Who's your favorite instructor?",
+      'answers': ['Max', 'Brad', 'Jonas', 'Scott'],
+    },
+  ];
   var _questionIndex = 0;
 
-  void _answerQuestion(questionsLength) {
+  void _answerQuestion() {
     setState(() {
       _questionIndex = _questionIndex + 1;
-
-      print(_questionIndex);
-
-      if (_questionIndex == questionsLength) {
-        _questionIndex = 0;
-      }
-      print(_questionIndex);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      {
-        'questionText': "What's your favorite color?",
-        'answers': ['Black', 'Red', 'Green', 'White'],
-      },
-      {
-        'questionText': "What's your favorite animal?",
-        'answers': ['Lion', 'Dog', 'Cat', 'Tortoise'],
-      },
-      {
-        'questionText': "Who's your favorite instructor?",
-        'answers': ['Max', 'Brad', 'Jonas', 'Scott'],
-      },
-    ];
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: const Text('My First App'),
         ),
-        body: Column(
-          children: [
-            Text(_questionIndex.toString()),
-            Question(questions[_questionIndex]['questionText'] as String),
-            ...(questions[_questionIndex]['answers'] as List<String>).map(
-              (answerText) {
-                return Answer(
-                  answerText: answerText,
-                  selectHandler: () => _answerQuestion(questions.length),
-                );
-              },
-            ),
-          ],
-        ),
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                questions: _questions,
+                answerQuestion: _answerQuestion,
+                questionIndex: _questionIndex)
+            // ignore: prefer_const_constructors
+            : Result(),
       ),
     );
   }
