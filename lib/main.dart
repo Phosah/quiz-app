@@ -3,7 +3,7 @@ import 'package:quiz_app/quiz.dart';
 import 'package:quiz_app/result.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -19,20 +19,36 @@ class _MyAppState extends State<MyApp> {
   final _questions = const [
     {
       'questionText': "What's your favorite color?",
-      'answers': ['Black', 'Red', 'Green', 'White'],
+      'answers': [
+        {'text': 'Black', 'score': 3},
+        {'text': 'Red', 'score': 6},
+        {'text': 'Green', 'score': 15},
+      ],
     },
     {
       'questionText': "What's your favorite animal?",
-      'answers': ['Lion', 'Dog', 'Cat', 'Tortoise'],
+      'answers': [
+        {'text': 'Dog', 'score': 5},
+        {'text': 'Tortoise', 'score': 8},
+        {'text': 'Lamb', 'score': 11},
+      ],
     },
     {
       'questionText': "Who's your favorite instructor?",
-      'answers': ['Max', 'Brad', 'Jonas', 'Scott'],
+      'answers': [
+        {'text': 'Max', 'score': 3},
+        {'text': 'Brad', 'score': 5},
+        {'text': 'Jonas', 'score': 15},
+        {'text': 'Scott', 'score': 9},
+      ],
     },
   ];
   var _questionIndex = 0;
+  var _totalScore = 0;
 
-  void _answerQuestion() {
+  void _answerQuestion(int score) {
+    _totalScore = _totalScore + score;
+
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
@@ -51,7 +67,7 @@ class _MyAppState extends State<MyApp> {
                 answerQuestion: _answerQuestion,
                 questionIndex: _questionIndex)
             // ignore: prefer_const_constructors
-            : Result(),
+            : Result(_totalScore),
       ),
     );
   }
