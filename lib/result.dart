@@ -26,7 +26,8 @@ class Result extends StatelessWidget {
               style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center),
         ),
-        ElevatedButton(onPressed: resetHandler, child: Text('Start Again'))
+        ElevatedButton(
+            onPressed: resetHandler, child: const Text('Start Again'))
       ],
     );
   }

@@ -73,7 +73,6 @@ class _MyAppState extends State<MyApp> {
                 questions: _questions,
                 answerQuestion: _answerQuestion,
                 questionIndex: _questionIndex)
-            // ignore: prefer_const_constructors
             : Result(_totalScore, _init),
       ),
     );
