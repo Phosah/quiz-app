@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'questions_screen.dart';
-import 'answer.dart';
+import 'answer_button.dart';
 import 'start_screen.dart';
 
 class Quiz extends StatefulWidget {
