@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/quiz.dart';
-import 'package:quiz_app/result.dart';
+import 'quiz.dart';
+import 'result.dart';
+import 'start_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -63,18 +64,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('My First App'),
-        ),
-        body: _questionIndex < _questions.length
-            ? Quiz(
-                questions: _questions,
-                answerQuestion: _answerQuestion,
-                questionIndex: _questionIndex)
-            : Result(_totalScore, _init),
-      ),
-    );
+    return Quiz();
   }
 }
