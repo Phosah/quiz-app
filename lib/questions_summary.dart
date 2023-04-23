@@ -22,9 +22,13 @@ class QuestionsSummary extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
+                  height: 30,
+                  width: 30,
+                  alignment: Alignment.center,
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(40)),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(100)),
                       color: bgColor),
                   child: Text(
                     ((data['question_index'] as int) + 1).toString(),
