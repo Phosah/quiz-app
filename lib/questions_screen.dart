@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'answer_button.dart';
 import 'data/questions.dart';
 
 class QuestionsScreen extends StatefulWidget {
-  // final String questionText;
+  final void Function(String answer) onSelectAnswer;
 
-  const QuestionsScreen(
-      // this.questionText,
-      {super.key});
+  const QuestionsScreen({required this.onSelectAnswer, super.key});
 
   @override
   State<QuestionsScreen> createState() => _QuestionsScreenState();
@@ -16,7 +16,9 @@ class QuestionsScreen extends StatefulWidget {
 class _QuestionsScreenState extends State<QuestionsScreen> {
   var currentQuestionIndex = 0;
 
-  void answerQuestion() {
+  void answerQuestion(String selectedAnswer) {
+    widget.onSelectAnswer(selectedAnswer);
+
     setState(() {
       currentQuestionIndex += 1;
     });
@@ -34,7 +36,10 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
         children: [
           Text(
             currentQuestion.text,
-            style: const TextStyle(color: Colors.white),
+            style: GoogleFonts.lato(
+                color: const Color.fromARGB(255, 243, 192, 245),
+                fontSize: 24,
+                fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           const SizedBox(
@@ -43,17 +48,11 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           ...currentQuestion.getShuffledAnswers().map((answer) {
             return AnswerButton(
               answerText: answer,
-              selectHandler: answerQuestion,
+              selectHandler: () {
+                answerQuestion(answer);
+              },
             );
           })
-          // Column(
-          //   children: currentQuestion.answers.map((answer) {
-          //     return AnswerButton(
-          //       answerText: answer,
-          //       selectHandler: () {},
-          //     );
-          //   }).toList(),
-          // )
         ],
       ),
     );

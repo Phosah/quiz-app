@@ -1,60 +1,66 @@
 import 'package:flutter/material.dart';
+import 'data/questions.dart';
+import 'results_screen.dart';
 import 'questions_screen.dart';
-import 'answer_button.dart';
 import 'start_screen.dart';
 
 class Quiz extends StatefulWidget {
-  // final List<Map<String, Object>> questions;
-  // final Function answerQuestion;
-  // final int questionIndex;
-  const Quiz(
-      {
-      //   required this.questions,
-      // required this.answerQuestion,
-      // required this.questionIndex,
-      super.key});
+  const Quiz({super.key});
 
   @override
   State<Quiz> createState() => _QuizState();
 }
 
 class _QuizState extends State<Quiz> {
-  // Widget? activeScreen;
+  List<String> selectedAnswers = [];
   var activeScreen = 'start-screen';
-
-  // @override
-  // void initState() {
-  //   // activeScreen = StartScreen(switchScreen);
-  //   super.initState();
-  // }
 
   void switchScreen() {
     setState(() {
-      // activeScreen = const QuestionsScreen();
+      activeScreen = 'questions-screen';
+    });
+  }
+
+  void chooseAnswer(String answer) {
+    selectedAnswers.add(answer);
+
+    if (selectedAnswers.length == questions.length) {
+      setState(() {
+        activeScreen = 'results-screen';
+      });
+    }
+  }
+
+  void init() {
+    setState(() {
+      selectedAnswers = [];
       activeScreen = 'questions-screen';
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // return Column(
-    //   children: [
-    //     QuestionsScreen(widget.questions[widget.questionIndex]['questionText'] as String),
-    //     ...(widget.questions[widget.questionIndex]['answers'] as List<Map<String, Object>>)
-    //         .map(
-    //       (answerText) {
-    //         return Answer(
-    //           answerText: answerText['text'] as String,
-    //           selectHandler: () => widget.answerQuestion(answerText['score']),
-    //         );
-    //       },
-    //     ),
-    //   ],
-    // );
+    Widget screenWidget = StartScreen(switchScreen);
+
+    if (activeScreen == 'questions-screen') {
+      screenWidget = QuestionsScreen(
+        onSelectAnswer: chooseAnswer,
+      );
+    }
+
+    if (activeScreen == 'results-screen') {
+      screenWidget = ResultsScreen(
+        chosenAnswers: selectedAnswers,
+        resetHandler: init,
+      );
+    }
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('My First App'),
+          title: const Text(
+            'Quiz app',
+          ),
         ),
         body: Container(
           decoration: const BoxDecoration(
@@ -67,9 +73,7 @@ class _QuizState extends State<Quiz> {
               end: Alignment.bottomRight,
             ),
           ),
-          child: activeScreen == 'start-screen'
-              ? StartScreen(switchScreen)
-              : const QuestionsScreen(),
+          child: screenWidget,
         ),
       ),
     );
